@@ -17,7 +17,7 @@ from qiime2.plugins import diversity, feature_table # ???
 from scipy.spatial import ConvexHull
 from convexhull._defaults import (DEFAULT_N_DIMENSIONS)
 
-def _validate(metadata, pcoa, column):
+def validate(metadata, pcoa, column):
 
 	meta_type = qiime2.metadata.metadata.Metadata
     pcoa_type = qiime2.sdk.result.Artifact     # Not sure if this is the right type 
@@ -72,13 +72,10 @@ def convex_hull(metadata: Metadata,
     # 2) Is there a better way to raise a KeyError (than try except)
     # 3) Is this code messy if so why?
     
-	_validate(metadata, pcoa, column, ndim=3)
-        
-    pcoa = pcoa.view(skbio.OrdinationResults)
-    meta = metadata.to_dataframe()
+	validate(metadata, pcoa, column)
     
     try:
-        meta = meta.loc[list(pcoa.samples.index)]
+        meta = metadata.loc[list(pcoa.samples.index)]
     except:
         KeyError('PCoA result indeces do not match metadata.')
         
