@@ -1,5 +1,9 @@
 from unittest import TestCase
-from convexhull import convex_hull
+import pandas as pd
+import numpy as np
+from skbio import OrdinationResults
+from q2_convexhull.convexhull import convex_hull
+from pandas.util.testing import assert_frame_equal
 
 # Where do I load the data from? 
 
@@ -17,8 +21,7 @@ class TestConvexHull(TestCase):
 	def setUp(self):
 
 		self.unique_id = 'unique_id'
-
-		metadata = pd.DataFrame(
+		self.metadata = pd.DataFrame(
 			{'random_values':[1,1,1,1,2,2,2,2],
 			 self.unique_id:['a','a','a','a','b','b','b','b']},
 			 index=['i1','i2','i3','i4','i5','i6','i7','i8'])
@@ -38,7 +41,7 @@ class TestConvexHull(TestCase):
 			np.array([0.8, 0.2]),
             index=['PC1','PC2'])
 
-		self.pcoa = skbio.OrdinationResults(
+		self.pcoa = OrdinationResults(
                 'PCoA',
                 'Principal Coordinate Analysis',
                 values,
@@ -51,8 +54,8 @@ class TestConvexHull(TestCase):
 		hulls = convex_hull(self.metadata, self.pcoa, 'unique_id')
 
 		expected = pd.DataFrame(
-			{'a':[1,6],
-			'b':[1,6],
-			columns=[self.unique_id, 'convexhull_volume','convexhull_area']})
+			{self.unique_id:['a','b'],
+			 'convexhull_volume':[1.0,1.0],
+			 'convexhull_area':[4.0,4.0]})
 
-		self.assertTrue(hulls == expected)
+		assert_frame_equal(hulls, expected)
