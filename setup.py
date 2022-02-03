@@ -30,4 +30,3 @@ setup(
                       'scikit-bio',
                       'pandas']
 )
-

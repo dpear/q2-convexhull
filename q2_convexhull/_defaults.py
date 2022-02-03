@@ -6,6 +6,4 @@
 # The full license is in the file COPYING.txt, distributed with this software.
 # ----------------------------------------------------------------------------
 
-# Default parameter values used 
-
 DEFAULT_N_DIMENSIONS = 3
