@@ -37,12 +37,13 @@ def convex_hull(metadata: Metadata,
 				pcoa: Artifact, 
 				column: str, 
 				ndim=DEFAULT_N_DIMENSIONS: int): # Help with mypy format here
-    """ Compute Convex Hull
+    """ Computes Convex Hull of a set of samples with multiple
+    timepoints for each sample. 
     Parameters
     ----------
     metadata: qiime2.metadata.metadata.Metadata
         Metadata table associated with PCoA results.
-        
+
     pcoa: qiime2.sdk.result.Artifact
         PCOA result.
         
@@ -68,8 +69,8 @@ def convex_hull(metadata: Metadata,
     """
     
     ### QUESTIONS ###
-    # 1) What should all the input types be? (DataFrame for metadata??)
-    # 2) Is there a better way to raise a KeyError (than try except)
+    # x1) What should all the input types be? (DataFrame for metadata??)
+    # x2) Is there a better way to raise a KeyError (than try except)
     # 3) Is this code messy if so why?
     
 	validate(metadata, pcoa, column)
