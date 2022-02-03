@@ -8,10 +8,26 @@
 # The full license is in the file LICENSE, distributed with this software.
 # ----------------------------------------------------------------------------
 
+from setuptools import setup, find_packages
 
-# Example of gemelli: https://github.com/biocore/gemelli/blob/master/setup.py
-
-# Example of unifrac: https://github.com/biocore/unifrac/blob/077fca46bd4b3e70698c7a8fc9c7913b9594f127/setup.py
-
-# Example of emperor: https://github.com/qiime2/q2-emperor/blob/master/setup.py
+setup(
+    name="q2-convexhull",
+    packages=find_packages(),
+    version='0.0.1',
+    author="Daniela Perry",
+    author_email="dsperry@ucsd.edu",
+    description="convex hull analysis for microbiome data",
+    license='BSD-3',
+    entry_points={
+        'qiime2.plugins': ['q2-convexhull=q2_convexhull.plugin_setup:plugin']
+    },
+    package_data={
+        "q2_convexhull": ['citations.bib'],
+    },
+    zip_safe=False,
+    install_requires=['scikit-learn',
+                      'scipy',
+                      'scikit-bio',
+                      'pandas']
+)
 
