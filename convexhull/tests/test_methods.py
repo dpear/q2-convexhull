@@ -51,8 +51,8 @@ class TestConvexHull(TestCase):
 		hulls = convex_hull(self.metadata, self.pcoa, 'unique_id')
 
 		expected = pd.DataFrame(
-			{'a':[1,4],
-			'b':[1,4],
+			{'a':[1,6],
+			'b':[1,6],
 			columns=[self.unique_id, 'convexhull_volume','convexhull_area']})
 
 		self.assertTrue(hulls == expected)
