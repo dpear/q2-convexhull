@@ -1,5 +1,9 @@
+import importlib
 from qiime2.plugin import (Plugin, Int, Citations,
                            Str, Range, Metadata)
+from ._type import Hulls
+from ._format import HullsDirectoryFormat
+from q2_types.sample_data import SampleData
 from q2_types.ordination import PCoAResults
 from q2_convexhull.convexhull import convex_hull
 
@@ -18,28 +22,28 @@ plugin = Plugin(
 plugin.methods.register_function(
     function=convex_hull,
     inputs={
-        'metadata': Metadata,
         'pcoa': PCoAResults,
-        'individual_id_column': Str,
     },
     parameters={
+        'individual_id_column': Str,
+        'metadata': Metadata,
         'number_of_dimensions': Int % Range(2, 3, inclusive_end=True),
     },
     outputs=[
-        ('hulls', Metadata),
+        ('hulls', SampleData[Hulls]),
     ],
     input_descriptions={
-        'metadata': (
-            'Metadata table with samples matching the PCoA results.'
-        ),
         'pcoa': (
             'Resulting dimensionality reduction for convex hull.'
+        ),
+    },
+    parameter_descriptions={
+        'metadata': (
+            'Metadata table with samples matching the PCoA results.'
         ),
         'individual_id_column': (
             'Metadata column containing IDs for individual subjects.'
         ),
-    },
-    parameter_descriptions={
         'number_of_dimensions': (
             'The number of components to use for convex hull calculations.'
         ),
@@ -54,3 +58,10 @@ plugin.methods.register_function(
         citations['Song2021-wu'],
     ]
 )
+
+plugin.register_semantic_types(Hulls)
+plugin.register_semantic_type_to_format(
+    SampleData[Hulls],
+    artifact_format=HullsDirectoryFormat)
+plugin.register_formats(HullsDirectoryFormat)
+importlib.import_module('q2_convexhull._transformer')
