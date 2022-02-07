@@ -11,9 +11,13 @@ from scipy.spatial import ConvexHull
 from skbio import OrdinationResults
 from q2_convexhull._defaults import (DEFAULT_N_DIMENSIONS)
 from warnings import warn
+from qiime2 import Metadata
+
 
 
 def validate(metadata, pcoa, individual_id_column):
+
+    metadata = metadata.to_dataframe()
 
     try:
         meta = metadata.loc[list(pcoa.samples.index)]
@@ -29,7 +33,7 @@ def validate(metadata, pcoa, individual_id_column):
     return meta
 
 
-def convex_hull(metadata: pd.DataFrame,
+def convex_hull(metadata: Metadata,
                 pcoa: OrdinationResults,
                 individual_id_column: str,
                 number_of_dimensions: int = DEFAULT_N_DIMENSIONS) \
