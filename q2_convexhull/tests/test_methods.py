@@ -50,3 +50,7 @@ class TestConvexHull(TestCase):
              'convexhull_area': [4.0, 4.0]})
 
         assert_frame_equal(hulls, expected)
+
+    # def test_warnings(self):
+    #   rows = [0, 4, 5, 6, 7]
+    #   meta = self.metadata.loc[rows]
