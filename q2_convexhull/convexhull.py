@@ -82,7 +82,7 @@ def convex_hull(metadata: pd.DataFrame,
                                  pcoa.long_method_name,
                                  pcoa.eigvals[:3],
                                  pcoa.samples[pcoa.samples.columns[:3]])
-    meta = validate(metadata, pcoa, individual_id_column, number_of_dimensions)
+    meta = validate(metadata, pcoa, individual_id_column)
     hulls = []
     for person, group in meta.groupby(individual_id_column):
         n_timepts = len(group)
