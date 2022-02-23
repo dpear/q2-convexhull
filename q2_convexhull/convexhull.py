@@ -19,11 +19,6 @@ def validate(metadata, pcoa, individual_id_column):
 
     meta = metadata.to_dataframe()
 
-    # try:
-    #     meta = metadata.loc[list(pcoa.samples.index)]
-    # except KeyError:
-    #     raise KeyError('PCoA result indeces do not match metadata.')
-
     if not all(z in meta.index for z in list(pcoa.samples.index)):
         raise KeyError('PCoA result indeces do not match metadata.')
 
@@ -49,7 +44,7 @@ def convex_hull(metadata: Metadata,
 
     Parameters
     ----------
-    metadata: Metadata
+    metadata: qiime2.Metadata table
         Metadata table associated with PCoA results.
 
     pcoa: skbio.OrdinationResults
@@ -79,29 +74,31 @@ def convex_hull(metadata: Metadata,
     """
 
     if number_of_dimensions > 3:
-        # warn_message = (f'Number of dimensions {number_of_dimensions} '
-        #                 f'not supported. Setting to default (3).')
-        warn_message = 'Setting number_of_dimensions to 3.'
-        warn(warn_message, Warning)
+        warn(
+            'Setting number_of_dimensions to 3.',
+            Warning)
         number_of_dimensions = 3
 
     if len(pcoa.samples.columns) > 3:
-        warn_message = (f'PCoA result has {len(pcoa.samples.columns)} '
-                        f"dimensions. Truncating to 3 PC's")
-        warn(warn_message, Warning)
+
+        warn(
+            (f'PCoA result has {len(pcoa.samples.columns)} '
+             f"dimensions. Truncating to 3 PC's"),
+            Warning)
         pcoa = OrdinationResults(pcoa.short_method_name,
                                  pcoa.long_method_name,
                                  pcoa.eigvals[:3],
                                  pcoa.samples[pcoa.samples.columns[:3]])
+
     meta = validate(metadata, pcoa, individual_id_column)
     hulls = []
     for person, group in meta.groupby(individual_id_column):
         n_timepts = len(group)
         if n_timepts <= number_of_dimensions:
-            warn_message = (f'Number of timepoints less than '
-                            f'number of dimensions.'
-                            f'Skipping individual {person}')
-            warn(warn_message, Warning)
+            warn((f'Number of timepoints less than '
+                  f'number of dimensions.'
+                  f'Skipping individual {person}'),
+                  Warning)
             continue
         coords = pcoa.samples.loc[group.index].values[:, :number_of_dimensions]
         c_hull = ConvexHull(coords)
