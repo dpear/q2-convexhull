@@ -17,18 +17,24 @@ from qiime2 import Metadata
 
 def validate(metadata, pcoa, individual_id_column):
 
-    metadata = metadata.to_dataframe()
+    meta = metadata.to_dataframe()
 
-    try:
-        meta = metadata.loc[list(pcoa.samples.index)]
-    except KeyError:
+    # try:
+    #     meta = metadata.loc[list(pcoa.samples.index)]
+    # except KeyError:
+    #     raise KeyError('PCoA result indeces do not match metadata.')
+
+    if not all(z in meta.index for z in list(pcoa.samples.index)):
         raise KeyError('PCoA result indeces do not match metadata.')
+
     if individual_id_column not in metadata.columns:
-        raise ValueError(f'Unique column id {individual_id_column}'
+        raise ValueError(f'Unique column id {individual_id_column} '
                          f'not found in metadata columns.')
+
     if len(pcoa.samples.columns) < 2:
-        raise ValueError(f'PCoA result has too few dimensions: '
-                         f'({len(pcoa.samples.columns)})')
+        raise ValueError('PCoA result has too few dimensions.')
+
+    meta = meta.loc[list(pcoa.samples.index)]
 
     return meta
 
@@ -43,7 +49,7 @@ def convex_hull(metadata: Metadata,
 
     Parameters
     ----------
-    metadata: pd.DataFrame
+    metadata: Metadata
         Metadata table associated with PCoA results.
 
     pcoa: skbio.OrdinationResults
@@ -73,12 +79,13 @@ def convex_hull(metadata: Metadata,
     """
 
     if number_of_dimensions > 3:
-        warn_message = (f'Number of dimensions {number_of_dimensions} '
-                        f'not supported. Setting to default (3).')
+        # warn_message = (f'Number of dimensions {number_of_dimensions} '
+        #                 f'not supported. Setting to default (3).')
+        warn_message = 'Setting number_of_dimensions to 3.'
         warn(warn_message, Warning)
         number_of_dimensions = 3
 
-    if len(pcoa.samples.columns):
+    if len(pcoa.samples.columns) > 3:
         warn_message = (f'PCoA result has {len(pcoa.samples.columns)} '
                         f"dimensions. Truncating to 3 PC's")
         warn(warn_message, Warning)
