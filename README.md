@@ -2,7 +2,12 @@
 ![](https://github.com/qiime2/q2templates/workflows/ci/badge.svg)
 Qiime2 plugin for exploring diversity through the convex hull area and volume of samples. For more information on Qiime2 visit: https://qiime2.org/
 ## Installation
-<code> pip install -e . </code>
+Assumes you have a working Qiime2 environment. For more information on this visit: https://docs.qiime2.org/2021.11/install/native/.
+<pre><code> 
+git clone
+cd q2-convexhull
+pip install -e . 
+</pre></code>
  
 ## Example
 The following is an example of how to obtain a <cod>SampleData</code> output of type <code>Hulls</code>.
