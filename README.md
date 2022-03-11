@@ -4,7 +4,7 @@ Qiime2 plugin for exploring diversity through the convex hull area and volume of
 ## Installation
 Assumes you have a working Qiime2 environment. For more information on this visit: https://docs.qiime2.org/2021.11/install/native/.
 <pre><code> 
-git clone
+git clone https://github.com/dpear/q2-convexhull.git
 cd q2-convexhull
 pip install -e . 
 </pre></code>
