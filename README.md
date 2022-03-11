@@ -5,7 +5,7 @@ Qiime2 plugin for exploring diversity through the convex hull area and volume of
 <code> pip install -e . </code>
  
 ## Example
-The following is an example of how to obtain a <SampleData> output of type <Hulls>.
+The following is an example of how to obtain a <cod>SampleData</code> output of type <code>Hulls</code>.
 <pre><code>
  qiime convexhull convex-hull \
   --i-pcoa unweighted_unifrac_pcoa_results.qza \
