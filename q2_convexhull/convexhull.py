@@ -103,7 +103,11 @@ def convex_hull(metadata: Metadata,
         coords = pcoa.samples.loc[group.index].values[:, :number_of_dimensions]
         c_hull = ConvexHull(coords)
         hulls.append([person, c_hull.volume, c_hull.area])
-    hulls = pd.DataFrame(hulls, columns=[individual_id_column,
-                                         'convexhull_volume',
-                                         'convexhull_area'])
+    index = [i for i in range(len(hulls))]
+    hulls = pd.DataFrame(hulls,
+                         columns=[individual_id_column,
+                         'convexhull_volume',
+                         'convexhull_area'],
+                        index=index)
+
     return hulls
